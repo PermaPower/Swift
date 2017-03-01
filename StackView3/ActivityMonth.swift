@@ -18,6 +18,7 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         cv.backgroundColor = .clear
         cv.delegate = self
         cv.dataSource = self
+        cv.allowsMultipleSelection = true
         cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
@@ -62,8 +63,17 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         return CGSize(width: widthPerItem, height: ((self.frame.height) / 2 ) - (sectionInsets.left * 2))
     }
 
-
-
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("cell \(indexPath.row) selected")
+        let cell = collectionView.cellForItem(at: indexPath)
+        cell?.backgroundColor = .red
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        print("cell \(indexPath.row) deselected")
+        let cell = collectionView.cellForItem(at: indexPath)
+        cell?.backgroundColor = .blue
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

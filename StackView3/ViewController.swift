@@ -52,7 +52,12 @@ class ViewController: UICollectionViewController {
     view.addConstraintsWithFormat(format: "H:|[v0]|", views: stackView)
     view.addConstraintsWithFormat(format: "V:|[v0]|", views: stackView)
         
+        // scroll size should equal the total of the views height //
+    //    scrollView.contentSize.height = 1000
+        
     }
+    
+
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         AMonth.collectionView.collectionViewLayout.invalidateLayout()
