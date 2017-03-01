@@ -9,9 +9,7 @@
 import UIKit
 
 class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
-    
-    
+
     let cellID = "CellID"
     
     lazy var collectionView: UICollectionView = {
@@ -23,7 +21,6 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)

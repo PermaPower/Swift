@@ -21,16 +21,36 @@ class ViewController: UICollectionViewController {
     let AMonth: ActivityMonth = {
         let am = ActivityMonth()
         am.translatesAutoresizingMaskIntoConstraints = false
+        am.backgroundColor = .orange
         return am
+    }()
+    
+    let AMonthView: UIView = {
+        let amv = UIView()
+        amv.translatesAutoresizingMaskIntoConstraints = false
+       return amv
     }()
     
     private func setupActivityMonth() {
     
-    view.addSubview(AMonth)
+    // Setup stackView //
+    let stackView = UIStackView(arrangedSubviews: [AMonthView])
+    stackView.axis = .vertical
+    stackView.distribution = .fillProportionally
+    stackView.alignment = .fill
+    stackView.spacing = 5
+    stackView.translatesAutoresizingMaskIntoConstraints = false
         
-    view.addConstraintsWithFormat(format: "H:|[v0]|", views: AMonth)
-    view.addConstraintsWithFormat(format: "V:|-150-[v0]|", views: AMonth)
-    
+    // Set height and width of Activity Month View
+    AMonthView.addSubview(AMonth)
+    AMonthView.addConstraintsWithFormat(format: "H:|[v0]|", views: AMonth)
+    AMonthView.addConstraintsWithFormat(format: "V:|[v0(100)]|", views: AMonth)
+        
+    // Set height and width for stackView
+    view.addSubview(stackView)
+        
+    view.addConstraintsWithFormat(format: "H:|[v0]|", views: stackView)
+    view.addConstraintsWithFormat(format: "V:|[v0]|", views: stackView)
         
     }
     
