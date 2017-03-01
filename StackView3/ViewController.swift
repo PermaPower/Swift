@@ -8,12 +8,37 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        navigationItem.title = "Home"
+                    
+        setupActivityMonth()
     }
+    
+    let AMonth: ActivityMonth = {
+        let am = ActivityMonth()
+        am.translatesAutoresizingMaskIntoConstraints = false
+        return am
+    }()
+    
+    private func setupActivityMonth() {
+    
+    view.addSubview(AMonth)
+        
+    view.addConstraintsWithFormat(format: "H:|[v0]|", views: AMonth)
+    view.addConstraintsWithFormat(format: "V:|-150-[v0]|", views: AMonth)
+    
+        
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        AMonth.collectionView.collectionViewLayout.invalidateLayout()
+        collectionView?.collectionViewLayout.invalidateLayout()
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

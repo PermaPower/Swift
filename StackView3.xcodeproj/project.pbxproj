@@ -12,6 +12,8 @@
 		63787F591E664F0400237CBA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63787F571E664F0400237CBA /* Main.storyboard */; };
 		63787F5B1E664F0400237CBA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63787F5A1E664F0400237CBA /* Assets.xcassets */; };
 		63787F5E1E664F0400237CBA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63787F5C1E664F0400237CBA /* LaunchScreen.storyboard */; };
+		63787F661E6651A900237CBA /* ActivityMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63787F651E6651A900237CBA /* ActivityMonth.swift */; };
+		63787F681E66531200237CBA /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63787F671E66531200237CBA /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +24,8 @@
 		63787F5A1E664F0400237CBA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63787F5D1E664F0400237CBA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		63787F5F1E664F0400237CBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		63787F651E6651A900237CBA /* ActivityMonth.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActivityMonth.swift; sourceTree = "<group>"; };
+		63787F671E66531200237CBA /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +59,9 @@
 			isa = PBXGroup;
 			children = (
 				63787F531E664F0400237CBA /* AppDelegate.swift */,
+				63787F651E6651A900237CBA /* ActivityMonth.swift */,
 				63787F551E664F0400237CBA /* ViewController.swift */,
+				63787F671E66531200237CBA /* Extension.swift */,
 				63787F571E664F0400237CBA /* Main.storyboard */,
 				63787F5A1E664F0400237CBA /* Assets.xcassets */,
 				63787F5C1E664F0400237CBA /* LaunchScreen.storyboard */,
@@ -96,6 +102,7 @@
 				TargetAttributes = {
 					63787F4F1E664F0400237CBA = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = TS49475533;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -138,6 +145,8 @@
 			files = (
 				63787F561E664F0400237CBA /* ViewController.swift in Sources */,
 				63787F541E664F0400237CBA /* AppDelegate.swift in Sources */,
+				63787F661E6651A900237CBA /* ActivityMonth.swift in Sources */,
+				63787F681E66531200237CBA /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +269,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = TS49475533;
 				INFOPLIST_FILE = StackView3/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.PermaculturePower.StackView3;
@@ -272,6 +282,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = TS49475533;
 				INFOPLIST_FILE = StackView3/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.PermaculturePower.StackView3;
