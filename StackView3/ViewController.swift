@@ -9,70 +9,88 @@
 import UIKit
 
 class ViewController: UICollectionViewController {
-
+    
+    var scrollView: UIScrollView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.title = "Home"
-                    
+        
         setupActivityMonth()
     }
+    
+    // Setup Activity Month //
     
     let AMonth: ActivityMonth = {
         let am = ActivityMonth()
         am.translatesAutoresizingMaskIntoConstraints = false
-        am.backgroundColor = .orange
         return am
     }()
+    
+    // Add Activity Month to a UIView //
     
     let AMonthView: UIView = {
         let amv = UIView()
         amv.translatesAutoresizingMaskIntoConstraints = false
-       return amv
+        return amv
     }()
     
     private func setupActivityMonth() {
-    
-    // Setup stackView //
-    let stackView = UIStackView(arrangedSubviews: [AMonthView])
-    stackView.axis = .vertical
-    stackView.distribution = .fillProportionally
-    stackView.alignment = .fill
-    stackView.spacing = 5
-    stackView.translatesAutoresizingMaskIntoConstraints = false
         
-    // Set height and width of Activity Month View
-    AMonthView.addSubview(AMonth)
-    AMonthView.addConstraintsWithFormat(format: "H:|[v0]|", views: AMonth)
-    AMonthView.addConstraintsWithFormat(format: "V:|[v0(100)]|", views: AMonth)
-        
-    // Set height and width for stackView
-    view.addSubview(stackView)
-        
-    view.addConstraintsWithFormat(format: "H:|[v0]|", views: stackView)
-    view.addConstraintsWithFormat(format: "V:|[v0]|", views: stackView)
-        
-        // scroll size should equal the total of the views height //
-    //    scrollView.contentSize.height = 1000
-        
-    // Stop view from going under navigationbar
+        // Stop view from going under navigationbar
         edgesForExtendedLayout = []
         
-    }
-    
+        // Add scrollView //
+        scrollView = UIScrollView(frame: view.bounds)
+        scrollView.backgroundColor = UIColor.green
+        scrollView.autoresizingMask = UIViewAutoresizing.flexibleWidth
+        scrollView.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.isScrollEnabled = true
+        
+        view.addSubview(scrollView)
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": scrollView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": scrollView]))
+        
+        
+        // TEST Label for scrollView //
+        let label = UILabel(frame: CGRect.zero)
+        label.text = "Nothing to show"
+        label.textAlignment = .center
+        label.backgroundColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        // Set height of Activity Month View
+        AMonthView.addSubview(AMonth)
+        AMonthView.addConstraintsWithFormat(format: "H:|[v0]|", views: AMonth)
+        AMonthView.addConstraintsWithFormat(format: "V:|[v0(100)]|", views: AMonth)
+        
+        // Setup StackView //
+        let stackView = UIStackView(arrangedSubviews: [label, AMonthView])
+        stackView.axis = .vertical
+        stackView.distribution = .fillProportionally
+        stackView.alignment = .fill
+        stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        scrollView.addSubview(stackView)
 
+        //scrollView.contentSize = CGSize(width: stackView.frame.width, height: stackView.frame.height)
+        //scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": stackView]))
+        
+        scrollView.contentSize.height = 3000
+        
+    }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         AMonth.collectionView.collectionViewLayout.invalidateLayout()
         collectionView?.collectionViewLayout.invalidateLayout()
     }
-
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 
