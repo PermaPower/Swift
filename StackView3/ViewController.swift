@@ -21,7 +21,6 @@ class ViewController: UICollectionViewController {
     }
     
     // Setup Activity Month //
-    
     let AMonth: ActivityMonth = {
         let am = ActivityMonth()
         am.translatesAutoresizingMaskIntoConstraints = false
@@ -29,17 +28,31 @@ class ViewController: UICollectionViewController {
     }()
     
     // Add Activity Month to a UIView //
-    
     let AMonthView: UIView = {
         let amv = UIView()
         amv.translatesAutoresizingMaskIntoConstraints = false
         return amv
     }()
     
+    // TEST Label for scrollView //
+    let label: UILabel = {
+        let lbl = UILabel(frame: CGRect.zero)
+        lbl.text = "Nothing to show"
+        lbl.textAlignment = .center
+        lbl.backgroundColor = .white
+        lbl.translatesAutoresizingMaskIntoConstraints = false
+        return lbl
+    }()
+    
     private func setupActivityMonth() {
         
         // Stop view from going under navigationbar
         edgesForExtendedLayout = []
+
+        // Set height of Activity Month View
+        AMonthView.addSubview(AMonth)
+        AMonthView.addConstraintsWithFormat(format: "H:|[v0]|", views: AMonth)
+        AMonthView.addConstraintsWithFormat(format: "V:|[v0(100)]|", views: AMonth)
         
         // Add scrollView //
         scrollView = UIScrollView(frame: view.bounds)
@@ -50,21 +63,8 @@ class ViewController: UICollectionViewController {
         scrollView.isScrollEnabled = true
         
         view.addSubview(scrollView)
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": scrollView]))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView]|", options: .alignAllCenterX, metrics: nil, views: ["scrollView": scrollView]))
-        
-        
-        // TEST Label for scrollView //
-        let label = UILabel(frame: CGRect.zero)
-        label.text = "Nothing to show"
-        label.textAlignment = .center
-        label.backgroundColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        // Set height of Activity Month View
-        AMonthView.addSubview(AMonth)
-        AMonthView.addConstraintsWithFormat(format: "H:|[v0]|", views: AMonth)
-        AMonthView.addConstraintsWithFormat(format: "V:|[v0(100)]|", views: AMonth)
+        view.addConstraintsWithFormat(format: "H:|[v0]|", views: scrollView)
+        view.addConstraintsWithFormat(format: "V:|[v0]|", views: scrollView)
         
         // Setup StackView //
         let stackView = UIStackView(arrangedSubviews: [label, AMonthView])
