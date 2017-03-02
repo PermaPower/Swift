@@ -53,6 +53,17 @@ class ViewController: UICollectionViewController {
         return sv
     }()
     
+    // Add stackview //
+    let stackView : UIStackView = {
+        let sView = UIStackView()
+        sView.axis = .vertical
+        sView.distribution = .fillProportionally
+        sView.alignment = .fill
+        sView.spacing = 5
+        sView.translatesAutoresizingMaskIntoConstraints = false
+        return sView
+    }()
+    
     private func setupActivityMonth() {
         
         // Stop view from going under navigationbar
@@ -69,14 +80,16 @@ class ViewController: UICollectionViewController {
         view.addConstraintsWithFormat(format: "V:|[v0]|", views: scrollView)
         
         // Setup StackView //
-        let stackView = UIStackView(arrangedSubviews: [label, AMonthView])
-        stackView.axis = .vertical
-        stackView.distribution = .fillProportionally
-        stackView.alignment = .fill
-        stackView.spacing = 5
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(stackView)
         
+        // Add views to StackView //
+        stackView.addArrangedSubview(label)
+        stackView.addArrangedSubview(AMonthView)
+        
+        // Hide views not required
+        // label.isHidden = true
+        
+        // Add stackview width contraint //
         stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         
         //scrollView.contentSize = CGSize(width: stackView.frame.width, height: stackView.frame.height)
