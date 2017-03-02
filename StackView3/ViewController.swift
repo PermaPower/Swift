@@ -10,8 +10,6 @@ import UIKit
 
 class ViewController: UICollectionViewController {
     
-    var scrollView: UIScrollView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,24 +42,28 @@ class ViewController: UICollectionViewController {
         return lbl
     }()
     
+    // Add scrollview //
+    let scrollView: UIScrollView = {
+        let sv = UIScrollView()
+        sv.backgroundColor = UIColor.green
+        sv.autoresizingMask = UIViewAutoresizing.flexibleWidth
+        sv.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.isScrollEnabled = true
+        return sv
+    }()
+    
     private func setupActivityMonth() {
         
         // Stop view from going under navigationbar
         edgesForExtendedLayout = []
-
+        
         // Set height of Activity Month View
         AMonthView.addSubview(AMonth)
         AMonthView.addConstraintsWithFormat(format: "H:|[v0]|", views: AMonth)
         AMonthView.addConstraintsWithFormat(format: "V:|[v0(100)]|", views: AMonth)
         
         // Add scrollView //
-        scrollView = UIScrollView(frame: view.bounds)
-        scrollView.backgroundColor = UIColor.green
-        scrollView.autoresizingMask = UIViewAutoresizing.flexibleWidth
-        scrollView.autoresizingMask = UIViewAutoresizing.flexibleHeight
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.isScrollEnabled = true
-        
         view.addSubview(scrollView)
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: scrollView)
         view.addConstraintsWithFormat(format: "V:|[v0]|", views: scrollView)
@@ -93,6 +95,6 @@ class ViewController: UICollectionViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
- 
+    
 }
 
