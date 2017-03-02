@@ -73,9 +73,10 @@ class ViewController: UICollectionViewController {
         stackView.alignment = .fill
         stackView.spacing = 5
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         scrollView.addSubview(stackView)
-
+        
+        stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        
         //scrollView.contentSize = CGSize(width: stackView.frame.width, height: stackView.frame.height)
         //scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": stackView]))
         
@@ -92,5 +93,6 @@ class ViewController: UICollectionViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+ 
 }
 
