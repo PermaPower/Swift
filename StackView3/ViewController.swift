@@ -55,6 +55,9 @@ class ViewController: UICollectionViewController {
         // scroll size should equal the total of the views height //
     //    scrollView.contentSize.height = 1000
         
+    // Stop view from going under navigationbar
+        edgesForExtendedLayout = []
+        
     }
     
 
