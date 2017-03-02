@@ -9,6 +9,10 @@
 import UIKit
 
 class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    // Month names
+    let months: [String] = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+    
 
     let cellID = "CellID"
     
@@ -22,6 +26,7 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -37,8 +42,8 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         let centerY = collectionView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         let centerX = collectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         NSLayoutConstraint.activate([leftConstraint, rightConstraint, bottomContraint, topConstraint, centerX, centerY])
-
         
+
     }
     
        
@@ -47,12 +52,21 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as UICollectionViewCell
         
         cell.backgroundColor = .blue
         
+        let textLabel = UILabel(frame: CGRect(x: 0, y: 0, width: cell.frame.size.width, height: cell.frame.size.height))
+        
+        textLabel.textAlignment = NSTextAlignment.center
+        textLabel.textColor = .white
+        
+        textLabel.text = "\(months[indexPath.row])"
+        cell.contentView.addSubview(textLabel)
+        
         return cell
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemsPerRow: CGFloat = 7

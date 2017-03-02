@@ -18,6 +18,8 @@ class ViewController: UICollectionViewController {
         setupActivityMonth()
     }
     
+
+    
     // Setup Activity Month //
     let AMonth: ActivityMonth = {
         let am = ActivityMonth()
@@ -86,9 +88,12 @@ class ViewController: UICollectionViewController {
         stackView.addArrangedSubview(label)
         stackView.addArrangedSubview(AMonthView)
         
+
+        
         // Hide views not required
         // label.isHidden = true
         
+
         // Add stackview width contraint //
         stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         
@@ -101,7 +106,6 @@ class ViewController: UICollectionViewController {
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         AMonth.collectionView.collectionViewLayout.invalidateLayout()
-        collectionView?.collectionViewLayout.invalidateLayout()
     }
     
     override func didReceiveMemoryWarning() {
