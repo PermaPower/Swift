@@ -60,9 +60,17 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         
         textLabel.textAlignment = NSTextAlignment.center
         textLabel.textColor = .white
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        textLabel.numberOfLines = 1
+        textLabel.adjustsFontSizeToFitWidth = true
+        textLabel.minimumScaleFactor = 0.5
+        textLabel.sizeToFit()
         
         textLabel.text = "\(months[indexPath.row])"
         cell.contentView.addSubview(textLabel)
+        
+        cell.contentView.addConstraintsWithFormat(format: "H:|[v0]|", views: textLabel)
+        cell.contentView.addConstraintsWithFormat(format: "V:|[v0]|", views: textLabel)
         
         return cell
     }
