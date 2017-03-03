@@ -13,7 +13,6 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
     // Month names
     let months: [String] = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
     
-
     let cellID = "CellID"
     
     lazy var collectionView: UICollectionView = {
@@ -24,10 +23,10 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         cv.dataSource = self
         cv.allowsMultipleSelection = true
         cv.translatesAutoresizingMaskIntoConstraints = false
+    
         return cv
     }()
 
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -71,6 +70,11 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         
         cell.contentView.addConstraintsWithFormat(format: "H:|[v0]|", views: textLabel)
         cell.contentView.addConstraintsWithFormat(format: "V:|[v0]|", views: textLabel)
+        
+        cell.layer.borderWidth = 2
+        cell.layer.cornerRadius = 5
+        cell.layer.borderColor = UIColor.white.cgColor
+        cell.layer.masksToBounds = true
         
         return cell
     }
