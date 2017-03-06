@@ -54,6 +54,22 @@ class ViewController: UICollectionViewController {
                             self.label.isHidden = true
             },  completion: nil)
             
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(0.35)) {
+                
+                if self.stackView.arrangedSubviews.index(of: self.label) != nil {
+                    // we found the current webview in the stack view! Remove it from the stack view
+                    self.stackView.removeArrangedSubview(self.label)
+                    
+                    // now remove it from the view hierarchy – this is important!
+                    self.label.removeFromSuperview()                    
+                    self.AMonth.collectionView.collectionViewLayout.invalidateLayout()
+                    
+                }
+            }
+            
+            
+            
         } else {
             stackView.addArrangedSubview(label)
             UIView.animate(withDuration: 0.35,

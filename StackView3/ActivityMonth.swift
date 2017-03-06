@@ -43,7 +43,7 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         cv.dataSource = self
         cv.allowsMultipleSelection = true
         cv.translatesAutoresizingMaskIntoConstraints = false
-    
+   
         return cv
     }()
 
@@ -58,9 +58,9 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         let rightConstraint = collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         let topConstraint = collectionView.topAnchor.constraint(equalTo: self.topAnchor)
         let bottomContraint = collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        let centerY = collectionView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
-        let centerX = collectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
-        NSLayoutConstraint.activate([leftConstraint, rightConstraint, bottomContraint, topConstraint, centerX, centerY])
+                
+        NSLayoutConstraint.activate([leftConstraint, rightConstraint, bottomContraint, topConstraint])
+
     }
     
        
