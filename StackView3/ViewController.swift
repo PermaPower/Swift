@@ -10,15 +10,61 @@ import UIKit
 
 class ViewController: UICollectionViewController {
     
+    private var ActivityMonthButtons = ActivityMonth()
+    
+    //  private var ActivityMonthButtonHasBeenPressed = Bool()
+    
+    private var ButtonFlag = 0
+    
+    private let cellID = "CellID"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Link this ViewController to the observer for Activity Month Button Variables
+        NotificationCenter.default.addObserver(self, selector: #selector(ViewController.actOnSpecialNotification), name: NSNotification.Name(rawValue: "buttonKey"), object: nil)
         
         navigationItem.title = "Home"
         
         setupActivityMonth()
     }
     
-
+    // Take action on notification //
+    func actOnSpecialNotification() {
+        
+        print(ActivityMonthButtons.buttonPressedIs)
+        print(ActivityMonthButtons.buttonPressedIsState)
+        
+        if ActivityMonthButtons.buttonPressedIsState == true {
+            ButtonFlag = ButtonFlag + 1
+            showNotes()
+        }else{
+            ButtonFlag = ButtonFlag - 1
+            showNotes()
+        }
+        
+    }
+    
+    func showNotes() {
+        if ButtonFlag == 0 {
+            UIView.animate(withDuration: 0.35,
+                           delay: 0,
+                           options: [ .curveEaseIn ],
+                           animations: {
+                            self.label.isHidden = true
+            },  completion: nil)
+            
+        } else {
+            stackView.addArrangedSubview(label)
+            UIView.animate(withDuration: 0.35,
+                           delay: 0,
+                           options: [ .curveEaseOut ],
+                           animations: {
+                            self.label.isHidden = false
+            },  completion: nil)
+        }
+    }
+    
     
     // Setup Activity Month //
     let AMonth: ActivityMonth = {
@@ -88,14 +134,14 @@ class ViewController: UICollectionViewController {
         stackView.addArrangedSubview(label)
         stackView.addArrangedSubview(AMonthView)
         
-
-        
-        // Hide views not required
-        // label.isHidden = true
-        
-
         // Add stackview width contraint //
         stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        
+        // Setup inital display for Actvity notes //
+        // label.isHidden = true
+        self.label.isHidden = true
+        
+        showNotes()
         
         //scrollView.contentSize = CGSize(width: stackView.frame.width, height: stackView.frame.height)
         //scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": stackView]))
@@ -103,6 +149,7 @@ class ViewController: UICollectionViewController {
         scrollView.contentSize.height = 3000
         
     }
+    
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         AMonth.collectionView.collectionViewLayout.invalidateLayout()

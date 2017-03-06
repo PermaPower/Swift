@@ -10,11 +10,31 @@ import UIKit
 
 class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    let mySpecialNotificationkey = "buttonKey"
+    
+    struct AMVariables {
+        static var buttonNumber = 0
+        static var buttonNumberState = Bool()
+    }
+        
     // Month names
-    let months: [String] = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+    private let months: [String] = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
     
-    let cellID = "CellID"
+    private let cellID = "CellID"
     
+    var buttonPressedIs: Int {
+        get {
+            return AMVariables.buttonNumber
+        }
+       
+    }
+    
+    var buttonPressedIsState: Bool {
+        get {
+            return AMVariables.buttonNumberState
+        }
+    }
+
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -41,8 +61,6 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         let centerY = collectionView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         let centerX = collectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor)
         NSLayoutConstraint.activate([leftConstraint, rightConstraint, bottomContraint, topConstraint, centerX, centerY])
-        
-
     }
     
        
@@ -90,15 +108,31 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("cell \(indexPath.row) selected")
+     //   print("cell \(indexPath.row) selected")
+        
+        AMVariables.buttonNumber = indexPath.item
+        AMVariables.buttonNumberState = true
+        
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.backgroundColor = .red
+        
+        // Setup NotificationCenter with "buttonKey" notification key
+        NotificationCenter.default.post(name: Notification.Name(rawValue: mySpecialNotificationkey), object: self)
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        print("cell \(indexPath.row) deselected")
+  //    print("cell \(indexPath.row) deselected")
+        
+        AMVariables.buttonNumber = indexPath.item
+        AMVariables.buttonNumberState = false
+        
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.backgroundColor = .blue
+        
+        // Setup NotificationCenter with "buttonKey" notification key
+        NotificationCenter.default.post(name: Notification.Name(rawValue: mySpecialNotificationkey), object: self)
+
     }
     
     required init?(coder aDecoder: NSCoder) {
