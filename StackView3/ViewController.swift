@@ -16,6 +16,9 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
     
     private let cellID = "CellID"
     
+    var showActivityMonthNote: Dictionary <String, Bool> = ["Jan": false, "Feb": false, "Mar": false, "Apr": false, "May": false, "Jun": false, "Jul": false, "Aug": false, "Sep": false, "Oct": false, "Nov": false, "Dec": false]
+    
+    
     // Setup Activity Month //
     let AMonth: ActivityMonth = {
         let am = ActivityMonth()
@@ -94,9 +97,13 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         if ActivityMonthButtons.buttonPressedIsState == true {
             ButtonFlag = ButtonFlag + 1
             showNotes()
-        }else{
+            // Update ahowActivityMonthNote flag in dictionary
+            showActivityMonthNote.updateValue(true, forKey: ActivityMonthButtons.buttonPressedNameIs)
+        } else {
             ButtonFlag = ButtonFlag - 1
             showNotes()
+            // Update ahowActivityMonthNote flag in dictionary
+            showActivityMonthNote.updateValue(false, forKey: ActivityMonthButtons.buttonPressedNameIs)
         }
         
     }
@@ -135,6 +142,8 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
                            animations: {
                             self.textView.isHidden = false
             },  completion: nil)
+            
+
             
         }
     }

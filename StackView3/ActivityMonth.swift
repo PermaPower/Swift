@@ -15,6 +15,7 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
     struct AMVariables {
         static var buttonNumber = 0
         static var buttonNumberState = Bool()
+        static var buttonNameString = String()
     }
         
     // Month names
@@ -27,6 +28,12 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
             return AMVariables.buttonNumber
         }
        
+    }
+    
+    var buttonPressedNameIs: String {
+        get {
+            return AMVariables.buttonNameString
+        }
     }
     
     var buttonPressedIsState: Bool {
@@ -112,6 +119,7 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         
         AMVariables.buttonNumber = indexPath.item
         AMVariables.buttonNumberState = true
+        AMVariables.buttonNameString = months[indexPath.item]
         
         let cell = collectionView.cellForItem(at: indexPath)
         cell?.backgroundColor = .red
