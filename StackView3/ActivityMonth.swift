@@ -138,6 +138,10 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
    
     
 }

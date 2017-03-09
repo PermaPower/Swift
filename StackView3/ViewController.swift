@@ -8,12 +8,10 @@
 
 import UIKit
 
-class ViewController: UICollectionViewController {
+class ViewController: UICollectionViewController, UITextViewDelegate {
     
     private var ActivityMonthButtons = ActivityMonth()
-    
-    //  private var ActivityMonthButtonHasBeenPressed = Bool()
-    
+       
     private var ButtonFlag = 0
     
     private let cellID = "CellID"
@@ -25,8 +23,9 @@ class ViewController: UICollectionViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(ViewController.actOnSpecialNotification), name: NSNotification.Name(rawValue: "buttonKey"), object: nil)
         
         navigationItem.title = "Home"
-        
+
         setupActivityMonth()
+        
     }
     
     // Take action on notification //
@@ -51,33 +50,38 @@ class ViewController: UICollectionViewController {
                            delay: 0,
                            options: [ .curveEaseIn ],
                            animations: {
-                            self.label.isHidden = true
+                            self.textView.isHidden = true
             },  completion: nil)
             
             
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(0.35)) {
                 
-                if self.stackView.arrangedSubviews.index(of: self.label) != nil {
+                if self.stackView.arrangedSubviews.index(of: self.textView) != nil {
                     // we found the current webview in the stack view! Remove it from the stack view
-                    self.stackView.removeArrangedSubview(self.label)
+                    self.stackView.removeArrangedSubview(self.textView)
                     
                     // now remove it from the view hierarchy – this is important!
-                    self.label.removeFromSuperview()                    
+                    self.textView.removeFromSuperview()
                     self.AMonth.collectionView.collectionViewLayout.invalidateLayout()
                     
                 }
             }
             
-            
-            
         } else {
-            stackView.addArrangedSubview(label)
+            stackView.addArrangedSubview(textView)
             UIView.animate(withDuration: 0.35,
                            delay: 0,
                            options: [ .curveEaseOut ],
                            animations: {
-                            self.label.isHidden = false
+                            self.textView.isHidden = false
             },  completion: nil)
+            
+            
+            let aSelector : Selector = #selector(ViewController.touchOutsideTextField)
+            let tapGesture = UITapGestureRecognizer(target: self, action: aSelector)
+            tapGesture.numberOfTapsRequired = 1
+            scrollView.addGestureRecognizer(tapGesture)
+
         }
     }
     
@@ -106,7 +110,21 @@ class ViewController: UICollectionViewController {
         return lbl
     }()
     
-    // Add scrollview //
+    // Text view
+    let textView: UITextView = {
+        let tv = UITextView(frame: CGRect.zero)
+        tv.textColor = UIColor.lightGray
+        tv.becomeFirstResponder()
+        tv.selectedTextRange = tv.textRange(from: tv.beginningOfDocument, to: tv.beginningOfDocument)
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.isScrollEnabled = false
+        tv.text = "Enter notes"
+        return tv
+    }()
+    
+    
+    
+     // Add scrollview //
     let scrollView: UIScrollView = {
         let sv = UIScrollView()
         sv.backgroundColor = UIColor.green
@@ -147,15 +165,20 @@ class ViewController: UICollectionViewController {
         scrollView.addSubview(stackView)
         
         // Add views to StackView //
-        stackView.addArrangedSubview(label)
+        stackView.addArrangedSubview(textView)
+        stackView.addConstraintsWithFormat(format: "H:|[v0]|", views: textView)
+        stackView.addConstraintsWithFormat(format: "V:|[v0]|", views: textView)
+        
         stackView.addArrangedSubview(AMonthView)
+
+
         
         // Add stackview width contraint //
         stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         
         // Setup inital display for Actvity notes //
         // label.isHidden = true
-        self.label.isHidden = true
+        self.textView.isHidden = true
         
         showNotes()
         
@@ -164,8 +187,31 @@ class ViewController: UICollectionViewController {
         
         scrollView.contentSize.height = 3000
         
+        scrollView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.onDrag
+        
+        textView.delegate = self
+        textView.resignFirstResponder()
+        
+        
     }
     
+    
+    func touchOutsideTextField(){
+        
+        self.view.endEditing(true)
+        
+    }
+    
+    
+    override func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+    
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        textView.endEditing(true)
+        textView.resignFirstResponder()
+    }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         AMonth.collectionView.collectionViewLayout.invalidateLayout()
@@ -175,6 +221,32 @@ class ViewController: UICollectionViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+
+   
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if (textView.text == "Enter notes")
+        {
+            textView.text = ""
+            textView.textColor = UIColor.black
+        }
+        textView.becomeFirstResponder()
+
+    }
+    
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if (textView.text == "")
+        {
+            textView.text = "Enter notes"
+            textView.textColor = UIColor.lightGray
+        }
+        textView.resignFirstResponder()
+    }
+    
     
 }
+
+
+
+
 
