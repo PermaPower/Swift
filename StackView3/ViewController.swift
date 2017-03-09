@@ -76,11 +76,11 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
                             self.textView.isHidden = false
             },  completion: nil)
             
-            
-            let aSelector : Selector = #selector(ViewController.touchOutsideTextField)
-            let tapGesture = UITapGestureRecognizer(target: self, action: aSelector)
-            tapGesture.numberOfTapsRequired = 1
-            scrollView.addGestureRecognizer(tapGesture)
+//            
+//            let aSelector : Selector = #selector(ViewController.touchOutsideTextField)
+//            let tapGesture = UITapGestureRecognizer(target: self, action: aSelector)
+//            tapGesture.numberOfTapsRequired = 1
+//            scrollView.addGestureRecognizer(tapGesture)
 
         }
     }
@@ -192,7 +192,8 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         textView.delegate = self
         textView.resignFirstResponder()
         
-        
+        hideKeyboardWhenTappedAround(cancelTouchesInView: false)
+
     }
     
     
@@ -211,6 +212,7 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         textView.endEditing(true)
         textView.resignFirstResponder()
+        super.touchesBegan(touches, with: event)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
