@@ -231,4 +231,16 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         }
         textView.resignFirstResponder()
     }
+    
+    // Scrolls textView to the top of the screen (to make sure keyboard fits)
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
+        let pointInTable:CGPoint = textView.superview!.convert(textView.frame.origin, to: scrollView)
+        var contentOffset:CGPoint = scrollView.contentOffset
+        contentOffset.y  = pointInTable.y
+        if let accessoryView = textView.inputAccessoryView {
+            contentOffset.y -= accessoryView.frame.size.height
+        }
+        scrollView.contentOffset = contentOffset
+        return true
+    }
 }
