@@ -50,7 +50,12 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         cv.dataSource = self
         cv.allowsMultipleSelection = true
         cv.translatesAutoresizingMaskIntoConstraints = false
-   
+        
+        cv.layer.cornerRadius = cv.frame.size.height / 2
+        cv.clipsToBounds = false
+        cv.layer.shadowOpacity = 0.4
+        cv.layer.shadowOffset = CGSize(width: 3, height: 3)
+        
         return cv
     }()
 
@@ -61,13 +66,9 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         
         addSubview(collectionView)
         
-        let leftConstraint = collectionView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-        let rightConstraint = collectionView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        let topConstraint = collectionView.topAnchor.constraint(equalTo: self.topAnchor)
-        let bottomContraint = collectionView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-                
-        NSLayoutConstraint.activate([leftConstraint, rightConstraint, bottomContraint, topConstraint])
-
+        addConstraintsWithFormat(format: "H:|-10-[v0]-10-|", views: collectionView)
+        addConstraintsWithFormat(format: "V:|[v0]|", views: collectionView)
+   
     }
     
        
@@ -78,12 +79,12 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as UICollectionViewCell
         
-        cell.backgroundColor = .blue
+        cell.backgroundColor = .white
         
         let textLabel = UILabel(frame: CGRect(x: 0, y: 0, width: cell.frame.size.width, height: cell.frame.size.height))
         
         textLabel.textAlignment = NSTextAlignment.center
-        textLabel.textColor = .white
+        textLabel.textColor = UIColor.darkGray
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         textLabel.numberOfLines = 1
         textLabel.adjustsFontSizeToFitWidth = true
@@ -96,9 +97,9 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         cell.contentView.addConstraintsWithFormat(format: "H:|[v0]|", views: textLabel)
         cell.contentView.addConstraintsWithFormat(format: "V:|[v0]|", views: textLabel)
         
-        cell.layer.borderWidth = 2
+        cell.layer.borderWidth = 1
         cell.layer.cornerRadius = 5
-        cell.layer.borderColor = UIColor.white.cgColor
+        cell.layer.borderColor = UIColor.cyan.cgColor
         cell.layer.masksToBounds = true
         
         return cell
@@ -115,14 +116,13 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-     //   print("cell \(indexPath.row) selected")
         
         AMVariables.buttonNumber = indexPath.item
         AMVariables.buttonNumberState = true
         AMVariables.buttonNameString = months[indexPath.item]
         
         let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = .red
+        cell?.backgroundColor = UIColor.cyan
         
         // Setup NotificationCenter with "buttonKey" notification key
         NotificationCenter.default.post(name: Notification.Name(rawValue: mySpecialNotificationkey), object: self)
@@ -130,13 +130,12 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-  //    print("cell \(indexPath.row) deselected")
         
         AMVariables.buttonNumber = indexPath.item
         AMVariables.buttonNumberState = false
         
         let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = .blue
+        cell?.backgroundColor = .white
         
         // Setup NotificationCenter with "buttonKey" notification key
         NotificationCenter.default.post(name: Notification.Name(rawValue: mySpecialNotificationkey), object: self)

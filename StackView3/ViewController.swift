@@ -33,12 +33,12 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         return amv
     }()
     
-    // TEST Label for scrollView //
+    // Label for scrollView //
     let label: UILabel = {
         let lbl = UILabel(frame: CGRect.zero)
-        lbl.text = "Nothing to show"
         lbl.textAlignment = .center
-        lbl.backgroundColor = .white
+        lbl.textColor = UIColor.white
+        lbl.adjustsFontSizeToFitWidth = true
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
@@ -52,16 +52,32 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.isScrollEnabled = false
         tv.text = "Enter notes"
+        tv.layer.cornerRadius = tv.frame.size.height / 2
+        tv.clipsToBounds = false
+        tv.layer.shadowOpacity = 0.4
+        tv.layer.shadowOffset = CGSize(width: 3, height: 3)
+        
         return tv
+    }()
+    
+    // Add white overlay view (smokebackground transparency)
+    let whiteView: UIView = {
+       let wv = UIView()
+        wv.backgroundColor = UIColor.white
+        wv.autoresizingMask = UIViewAutoresizing.flexibleWidth
+        wv.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        wv.translatesAutoresizingMaskIntoConstraints = false
+        return wv
     }()
     
     // Add scrollview //
     let scrollView: UIScrollView = {
         let sv = UIScrollView()
-        sv.backgroundColor = UIColor.green
+        sv.backgroundColor = UIColor.init(patternImage: #imageLiteral(resourceName: "bg-sunny")).withAlphaComponent(0.6)
         sv.autoresizingMask = UIViewAutoresizing.flexibleWidth
         sv.autoresizingMask = UIViewAutoresizing.flexibleHeight
         sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.bounces = false
         sv.isScrollEnabled = true
         return sv
     }()
@@ -73,6 +89,7 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         sView.distribution = .fillProportionally
         sView.alignment = .fill
         sView.spacing = 5
+        sView.isLayoutMarginsRelativeArrangement = true
         sView.translatesAutoresizingMaskIntoConstraints = false
         return sView
     }()
@@ -152,11 +169,16 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         
         // Stop view from going under navigationbar
         edgesForExtendedLayout = []
-        
+                
         // Set height of Activity Month View
         AMonthView.addSubview(AMonth)
         AMonthView.addConstraintsWithFormat(format: "H:|[v0]|", views: AMonth)
         AMonthView.addConstraintsWithFormat(format: "V:|[v0(100)]|", views: AMonth)
+        
+        // Add whiteView
+        view.addSubview(whiteView)
+        view.addConstraintsWithFormat(format: "H:|[v0]|", views: whiteView)
+        view.addConstraintsWithFormat(format: "V:|[v0]|", views: whiteView)
         
         // Add scrollView
         view.addSubview(scrollView)
@@ -167,10 +189,16 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         scrollView.addSubview(stackView)
         
         // Add views to StackView
+        
+        stackView.addArrangedSubview(label)
+        label.text = "Select Activity Months"
+        stackView.addConstraintsWithFormat(format: "H:|[v0]|", views: label)
+        stackView.addConstraintsWithFormat(format: "V:[v0]", views: label)
+        
         stackView.addArrangedSubview(textView)
         stackView.addConstraintsWithFormat(format: "H:|[v0]|", views: textView)
-        stackView.addConstraintsWithFormat(format: "V:|[v0]|", views: textView)
-        
+        stackView.addConstraintsWithFormat(format: "V:[v0]", views: textView)
+
         // Add Activity Month View to the StackView
         stackView.addArrangedSubview(AMonthView)
         
@@ -252,4 +280,5 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         scrollView.contentOffset = contentOffset
         return true
     }
-}
+    
+  }
