@@ -39,6 +39,7 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         lbl.textAlignment = .center
         lbl.textColor = UIColor.white
         lbl.adjustsFontSizeToFitWidth = true
+        lbl.numberOfLines = 0
         lbl.translatesAutoresizingMaskIntoConstraints = false
         return lbl
     }()
@@ -192,6 +193,7 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         
         stackView.addArrangedSubview(label)
         label.text = "Select Activity Months"
+        label.font = label.font.withSize(22)
         stackView.addConstraintsWithFormat(format: "H:|[v0]|", views: label)
         stackView.addConstraintsWithFormat(format: "V:[v0]", views: label)
         
