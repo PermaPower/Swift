@@ -61,20 +61,12 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         return tv
     }()
     
-    // Add white overlay view (smokebackground transparency)
-    let whiteView: UIView = {
-       let wv = UIView()
-        wv.backgroundColor = UIColor.white
-        wv.autoresizingMask = UIViewAutoresizing.flexibleWidth
-        wv.autoresizingMask = UIViewAutoresizing.flexibleHeight
-        wv.translatesAutoresizingMaskIntoConstraints = false
-        return wv
-    }()
-    
     // Add scrollview //
     let scrollView: UIScrollView = {
         let sv = UIScrollView()
-        sv.backgroundColor = UIColor.init(patternImage: #imageLiteral(resourceName: "bg-sunny")).withAlphaComponent(0.6)
+
+        sv.backgroundColor = UIColor.init(patternImage: #imageLiteral(resourceName: "bg-sunny"))
+        
         sv.autoresizingMask = UIViewAutoresizing.flexibleWidth
         sv.autoresizingMask = UIViewAutoresizing.flexibleHeight
         sv.translatesAutoresizingMaskIntoConstraints = false
@@ -170,16 +162,13 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         
         // Stop view from going under navigationbar
         edgesForExtendedLayout = []
-                
+        
+        automaticallyAdjustsScrollViewInsets = false
+        
         // Set height of Activity Month View
         AMonthView.addSubview(AMonth)
         AMonthView.addConstraintsWithFormat(format: "H:|[v0]|", views: AMonth)
         AMonthView.addConstraintsWithFormat(format: "V:|[v0(100)]|", views: AMonth)
-        
-        // Add whiteView
-        view.addSubview(whiteView)
-        view.addConstraintsWithFormat(format: "H:|[v0]|", views: whiteView)
-        view.addConstraintsWithFormat(format: "V:|[v0]|", views: whiteView)
         
         // Add scrollView
         view.addSubview(scrollView)
@@ -214,7 +203,7 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         showNotes()
         
         //scrollView.contentSize = CGSize(width: stackView.frame.width, height: stackView.frame.height)
-        //scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": stackView]))
+       // scrollView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[stackView]|", options: NSLayoutFormatOptions.alignAllCenterX, metrics: nil, views: ["stackView": stackView]))
         scrollView.contentSize.height = 3000
         
         // Dismiss keyboard if the scrollview has been scrolled

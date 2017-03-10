@@ -79,7 +79,7 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as UICollectionViewCell
         
-        cell.backgroundColor = .white
+        cell.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         
         let textLabel = UILabel(frame: CGRect(x: 0, y: 0, width: cell.frame.size.width, height: cell.frame.size.height))
         
@@ -135,7 +135,7 @@ class ActivityMonth: UIView, UICollectionViewDataSource, UICollectionViewDelegat
         AMVariables.buttonNumberState = false
         
         let cell = collectionView.cellForItem(at: indexPath)
-        cell?.backgroundColor = .white
+        cell?.backgroundColor = UIColor.white.withAlphaComponent(0.8)
         
         // Setup NotificationCenter with "buttonKey" notification key
         NotificationCenter.default.post(name: Notification.Name(rawValue: mySpecialNotificationkey), object: self)
