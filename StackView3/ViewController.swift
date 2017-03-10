@@ -95,7 +95,7 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         
         // Title of the viewcontroller
         navigationItem.title = "Home"
-        
+       
         // Setup the structure of the view
         setupActivityMonth()
         
@@ -162,7 +162,6 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         
         // Stop view from going under navigationbar
         edgesForExtendedLayout = []
-        
         automaticallyAdjustsScrollViewInsets = false
         
         // Set height of Activity Month View
@@ -175,13 +174,40 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: scrollView)
         view.addConstraintsWithFormat(format: "V:|[v0]|", views: scrollView)
         
-        // Setup StackView
+        // Add clouds //
+        let cloudy1 = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        cloudy1.image = UIImage(named: "bg-sunny-cloud-1")
+        scrollView.addSubview(cloudy1)
+        
+        let cloudy2 = UIImageView(frame: CGRect(x: 80, y: 100, width: 110, height: 40))
+        cloudy2.image = UIImage(named: "bg-sunny-cloud-2")
+        scrollView.addSubview(cloudy2)
+  
+        
+        UIView.animate(withDuration: 100, delay: 1,
+                       options: [.repeat, .autoreverse, .curveEaseInOut],
+                       animations: {
+                        cloudy1.center.x += self.view.bounds.width
+        }, 
+                       completion: nil
+        )
+        
+        
+        UIView.animate(withDuration: 150, delay: 10,
+                       options: [.repeat, .autoreverse, .curveEaseInOut],
+                       animations: {
+                        cloudy2.center.x += self.view.bounds.width
+        },
+                       completion: nil
+        )
+        
+          // Setup StackView
         scrollView.addSubview(stackView)
         
         // Add views to StackView
         
         stackView.addArrangedSubview(label)
-        label.text = "Select Activity Months"
+        label.text = "Plant activity months"
         label.font = label.font.withSize(22)
         stackView.addConstraintsWithFormat(format: "H:|[v0]|", views: label)
         stackView.addConstraintsWithFormat(format: "V:[v0]", views: label)
