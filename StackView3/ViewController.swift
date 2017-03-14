@@ -65,7 +65,7 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
     let scrollView: UIScrollView = {
         let sv = UIScrollView()
 
-        sv.backgroundColor = UIColor.init(patternImage: #imageLiteral(resourceName: "bg-sunny"))
+  //      sv.backgroundColor = UIColor.init(patternImage: #imageLiteral(resourceName: "bg-sunny"))
         
         sv.autoresizingMask = UIViewAutoresizing.flexibleWidth
         sv.autoresizingMask = UIViewAutoresizing.flexibleHeight
@@ -87,6 +87,17 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         return sView
     }()
     
+    // Add background image //
+    let imageViewBackground : UIImageView = {
+       let bi = UIImageView()
+        bi.image = UIImage(named: "bg-sunny")
+        bi.contentMode = UIViewContentMode.scaleAspectFill
+        bi.autoresizingMask = UIViewAutoresizing.flexibleWidth
+        bi.autoresizingMask = UIViewAutoresizing.flexibleHeight
+        bi.translatesAutoresizingMaskIntoConstraints = false
+        return bi
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -95,6 +106,7 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         
         // Title of the viewcontroller
         navigationItem.title = "Home"
+        
        
         // Setup the structure of the view
         setupActivityMonth()
@@ -160,6 +172,9 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
     
     private func setupActivityMonth() {
         
+        // **** Need to fix background image for scroll view on rotation ****//
+        
+        
         // Stop view from going under navigationbar
         edgesForExtendedLayout = []
         automaticallyAdjustsScrollViewInsets = false
@@ -173,7 +188,19 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         view.addSubview(scrollView)
         view.addConstraintsWithFormat(format: "H:|[v0]|", views: scrollView)
         view.addConstraintsWithFormat(format: "V:|[v0]|", views: scrollView)
-        
+       
+        // Add background
+        scrollView.addSubview(imageViewBackground)
+        let myIVWidthConstraint =
+            NSLayoutConstraint(item: imageViewBackground,
+                               attribute: NSLayoutAttribute.width,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: scrollView,
+                               attribute: NSLayoutAttribute.width,
+                               multiplier: 1,
+                               constant: 0)
+         scrollView.addConstraint(myIVWidthConstraint)
+
         // Add clouds //
         let cloudy1 = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
         cloudy1.image = UIImage(named: "bg-sunny-cloud-1")
@@ -241,6 +268,7 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         
         // Calls extention to cancel touches if not in view.  This also hides the keyboard
         hideKeyboardWhenTappedAround(cancelTouch: false)
+        
     }
     
     // Scrolls the scrollview to the top when shown
@@ -297,5 +325,5 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         scrollView.contentOffset = contentOffset
         return true
     }
-    
+
   }
