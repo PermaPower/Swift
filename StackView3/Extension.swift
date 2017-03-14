@@ -38,19 +38,11 @@ extension UIViewController {
     }
 }
 
-
-//extension UILabel{
-//    
-//    func requiredHeight() -> CGFloat{
-//        
-//        let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: self.frame.width, height: CGFloat.greatestFiniteMagnitude))
-//        label.numberOfLines = 0
-//        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-//        label.font = self.font
-//        label.text = self.text
-//        
-//        label.sizeToFit()
-//        
-//        return label.frame.height
-//    }
-//}
+extension UIColor {
+    convenience init(hex: Int) {
+        let r = hex / 0x10000
+        let g = (hex - r*0x10000) / 0x100
+        let b = hex - r*0x10000 - g*0x100
+        self.init(red: CGFloat(r)/255, green: CGFloat(g)/255, blue: CGFloat(b)/255, alpha: 1)
+    }
+}

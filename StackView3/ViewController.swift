@@ -14,6 +14,8 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
     
     private var ButtonFlag = 0
     
+    private var scrollPosition = 0
+    
     private let cellID = "CellID"
     
     var showActivityMonthNote: Dictionary <String, Bool> = ["Jan": false, "Feb": false, "Mar": false, "Apr": false, "May": false, "Jun": false, "Jul": false, "Aug": false, "Sep": false, "Oct": false, "Nov": false, "Dec": false]
@@ -106,8 +108,7 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         
         // Title of the viewcontroller
         navigationItem.title = "Home"
-        
-       
+
         // Setup the structure of the view
         setupActivityMonth()
         
@@ -200,9 +201,19 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
                                multiplier: 1,
                                constant: 0)
          scrollView.addConstraint(myIVWidthConstraint)
+        
+        let myIVHeightConstraint =
+            NSLayoutConstraint(item: imageViewBackground,
+                               attribute: NSLayoutAttribute.height,
+                               relatedBy: NSLayoutRelation.equal,
+                               toItem: scrollView,
+                               attribute: NSLayoutAttribute.height,
+                               multiplier: 1,
+                               constant: 0)
+        scrollView.addConstraint(myIVHeightConstraint)
 
         // Add clouds //
-        let cloudy1 = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        let cloudy1 = UIImageView(frame: CGRect(x: 0, y: 20, width: 100, height: 50))
         cloudy1.image = UIImage(named: "bg-sunny-cloud-1")
         scrollView.addSubview(cloudy1)
         
@@ -322,8 +333,25 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         if let accessoryView = textView.inputAccessoryView {
             contentOffset.y -= accessoryView.frame.size.height
         }
-        scrollView.contentOffset = contentOffset
+        
+        scrollPosition = Int(scrollView.contentOffset.y)
+        print (scrollPosition)
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+            self.scrollView.contentOffset = contentOffset
+        }, completion: nil)
+        
         return true
     }
-
+    
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
+             self.scrollView.contentOffset.y = CGFloat(self.scrollPosition)
+        }, completion: nil)
+        
+       
+        return true
+    }
+    
   }
