@@ -12,14 +12,17 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
     
     private var ActivityMonthButtons = ActivityMonth()
     
+    // Track how many buttons have been pressed for Activity Month Note
     private var ButtonFlag = 0
     
+    // Track current scroll position so that the view can scroll back after textView has been updated
     private var scrollPosition = 0
     
+    // Cell ID for UICollectionViewCell
     private let cellID = "CellID"
     
+    // Setup a dictionary for the button names for the collectionview cells
     var showActivityMonthNote: Dictionary <String, Bool> = ["Jan": false, "Feb": false, "Mar": false, "Apr": false, "May": false, "Jun": false, "Jul": false, "Aug": false, "Sep": false, "Oct": false, "Nov": false, "Dec": false]
-    
     
     // Setup Activity Month //
     let AMonth: ActivityMonth = {
@@ -66,9 +69,6 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
     // Add scrollview //
     let scrollView: UIScrollView = {
         let sv = UIScrollView()
-
-  //      sv.backgroundColor = UIColor.init(patternImage: #imageLiteral(resourceName: "bg-sunny"))
-        
         sv.autoresizingMask = UIViewAutoresizing.flexibleWidth
         sv.autoresizingMask = UIViewAutoresizing.flexibleHeight
         sv.translatesAutoresizingMaskIntoConstraints = false
@@ -128,7 +128,6 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
             // Update ahowActivityMonthNote flag in dictionary
             showActivityMonthNote.updateValue(false, forKey: ActivityMonthButtons.buttonPressedNameIs)
         }
-        
     }
     
     // Hide or Shows notes view based on ActivityMonthButtons Button Flag value
@@ -136,12 +135,7 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         
         // No button had been pressed
         if ButtonFlag == 0 {
-            UIView.animate(withDuration: 0.35,
-                           delay: 0,
-                           options: [ .curveEaseIn ],
-                           animations: {
-                            self.textView.isHidden = true
-            },  completion: nil)
+            UIView.animate(withDuration: 0.35, delay: 0, options: [ .curveEaseIn ], animations: { self.textView.isHidden = true },  completion: nil)
             
             // Short delay
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(0.35)) {
@@ -155,26 +149,14 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
                     self.AMonth.collectionView.collectionViewLayout.invalidateLayout()
                 }
             }
-            
         } else {
             // Add textView as at least one button has been pressed
             stackView.addArrangedSubview(textView)
-            UIView.animate(withDuration: 0.35,
-                           delay: 0,
-                           options: [ .curveEaseOut ],
-                           animations: {
-                            self.textView.isHidden = false
-            },  completion: nil)
-            
-
-            
+            UIView.animate(withDuration: 0.35, delay: 0, options: [ .curveEaseOut ], animations: { self.textView.isHidden = false },  completion: nil)
         }
     }
     
     private func setupActivityMonth() {
-        
-        // **** Need to fix background image for scroll view on rotation ****//
-        
         
         // Stop view from going under navigationbar
         edgesForExtendedLayout = []
@@ -192,27 +174,13 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
        
         // Add background
         scrollView.addSubview(imageViewBackground)
-        let myIVWidthConstraint =
-            NSLayoutConstraint(item: imageViewBackground,
-                               attribute: NSLayoutAttribute.width,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: scrollView,
-                               attribute: NSLayoutAttribute.width,
-                               multiplier: 1,
-                               constant: 0)
-         scrollView.addConstraint(myIVWidthConstraint)
+        let myIVWidthConstraint = NSLayoutConstraint(item: imageViewBackground,attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.width, multiplier: 1, constant: 0)
+        scrollView.addConstraint(myIVWidthConstraint)
         
-        let myIVHeightConstraint =
-            NSLayoutConstraint(item: imageViewBackground,
-                               attribute: NSLayoutAttribute.height,
-                               relatedBy: NSLayoutRelation.equal,
-                               toItem: scrollView,
-                               attribute: NSLayoutAttribute.height,
-                               multiplier: 1,
-                               constant: 0)
+        let myIVHeightConstraint = NSLayoutConstraint(item: imageViewBackground, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: scrollView, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 0)
         scrollView.addConstraint(myIVHeightConstraint)
 
-        // Add clouds //
+        // Add clouds
         let cloudy1 = UIImageView(frame: CGRect(x: 0, y: 20, width: 100, height: 50))
         cloudy1.image = UIImage(named: "bg-sunny-cloud-1")
         scrollView.addSubview(cloudy1)
@@ -221,29 +189,14 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
         cloudy2.image = UIImage(named: "bg-sunny-cloud-2")
         scrollView.addSubview(cloudy2)
   
-        
-        UIView.animate(withDuration: 100, delay: 1,
-                       options: [.repeat, .autoreverse, .curveEaseInOut],
-                       animations: {
-                        cloudy1.center.x += self.view.bounds.width
-        }, 
-                       completion: nil
-        )
-        
-        
-        UIView.animate(withDuration: 150, delay: 10,
-                       options: [.repeat, .autoreverse, .curveEaseInOut],
-                       animations: {
-                        cloudy2.center.x += self.view.bounds.width
-        },
-                       completion: nil
-        )
+        // Animate clouds
+        UIView.animate(withDuration: 100, delay: 1, options: [.repeat, .autoreverse, .curveEaseInOut], animations: { cloudy1.center.x += self.view.bounds.width }, completion: nil)
+        UIView.animate(withDuration: 150, delay: 10, options: [.repeat, .autoreverse, .curveEaseInOut], animations: { cloudy2.center.x += self.view.bounds.width }, completion: nil)
         
           // Setup StackView
         scrollView.addSubview(stackView)
         
         // Add views to StackView
-        
         stackView.addArrangedSubview(label)
         label.text = "Plant activity months"
         label.font = label.font.withSize(22)
@@ -329,29 +282,25 @@ class ViewController: UICollectionViewController, UITextViewDelegate {
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
         let pointInTable:CGPoint = textView.superview!.convert(textView.frame.origin, to: scrollView)
         var contentOffset:CGPoint = scrollView.contentOffset
-        contentOffset.y  = pointInTable.y
+            contentOffset.y  = pointInTable.y
         if let accessoryView = textView.inputAccessoryView {
             contentOffset.y -= accessoryView.frame.size.height
         }
         
+        // Remember current scroll position (global) so I can scroll back here
         scrollPosition = Int(scrollView.contentOffset.y)
-        print (scrollPosition)
         
         UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
             self.scrollView.contentOffset = contentOffset
         }, completion: nil)
-        
         return true
     }
     
+    // Scrolls textView back to the original scroll position before editing
     func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
-        
         UIView.animate(withDuration: 0.5, delay: 0, options: UIViewAnimationOptions.curveEaseInOut, animations: {
              self.scrollView.contentOffset.y = CGFloat(self.scrollPosition)
         }, completion: nil)
-        
-       
         return true
     }
-    
-  }
+}
